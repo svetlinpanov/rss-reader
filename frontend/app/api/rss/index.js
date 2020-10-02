@@ -7,7 +7,7 @@ export class RssAPI {
   postRssUrls = async urls => {
     const requestOptions = {
       method: 'POST',
-      // headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(urls),
     };
     const response = await fetch(`${apiUrl}/rss`, requestOptions);
@@ -18,7 +18,7 @@ export class RssAPI {
   getRssUrls = async () => {
     const requestOptions = {
       method: 'GET',
-      // headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json' },
     };
     const response = await fetch(`${apiUrl}/rssUrls`, requestOptions);
     const data = await response.json();
