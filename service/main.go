@@ -42,7 +42,6 @@ func notFound(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	r := mux.NewRouter()
-	r.Use(mux.CORSMethodMiddleware(r))
 
 	api := r.PathPrefix("/api/v1").Subrouter()
 	api.HandleFunc("/rss", get).Methods(http.MethodGet)
