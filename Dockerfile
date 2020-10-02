@@ -21,7 +21,7 @@ RUN go mod download
 COPY . .
 
 # Build the Go app
-RUN go build -o main .
+RUN go build -o main ./service
 
 # Expose port 8080 to the outside world
 EXPOSE 8080

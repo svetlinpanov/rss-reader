@@ -10,9 +10,9 @@ COPY . ./
 RUN npm run build
 
 FROM nginx
-COPY --from=build /usr/src/app/build /var/www/
+COPY --from=build /usr/src/app/build /usr/share/nginx/html
 
-COPY ./app/.nginx.conf /etc/nginx/nginx.conf
+COPY nginx.conf /etc/nginx/nginx.conf
 
 #COPY .htpasswd /etc/apache2/.htpasswd
 CMD ["nginx", "-g", "daemon off;"]

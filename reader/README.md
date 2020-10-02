@@ -2,7 +2,7 @@
 Reader package used for parsing multiple rss feeds asynchronously
 
 To install it in you project run:
-go get github.com/svetlinpanov/rss-reader/reader/
+go get -v github.com/svetlinpanov/rss-reader/reader@0.2-alpha
 
 It exports a function Parse(urls []string) which accepts array of urls and returns 
 
