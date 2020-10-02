@@ -1,7 +1,7 @@
 import { getRssItemsMapper } from './mappers';
 export { RssAPIFake } from './fake';
 
-const apiUrl = 'http://localhost:8080/api/v1';
+const apiUrl = '/api/v1';
 
 export class RssAPI {
   postRssUrls = async urls => {
