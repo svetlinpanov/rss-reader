@@ -1,0 +1,23 @@
+import { createSelector } from 'reselect';
+import { initialState } from './reducer';
+
+/**
+ * Direct selector to the settingsPage state domain
+ */
+
+const selectSettingsPageDomain = state => state.settingsPage || initialState;
+
+/**
+ * Other specific selectors
+ */
+
+/**
+ * Default selector used by SettingsPage
+ */
+
+const selectRssUrls = createSelector(
+  selectSettingsPageDomain,
+  settingsPage => settingsPage.rssUrls,
+);
+
+export { selectRssUrls };

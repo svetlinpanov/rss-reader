@@ -48,6 +48,7 @@ func convertToRssItems(channel *models.Channel) ([]RssItem, error) {
 	return items, nil
 }
 
+// RssItems from all feeds
 type RssItem struct {
 	Title       string    `json:"title"`
 	Source      string    `json:"source"`

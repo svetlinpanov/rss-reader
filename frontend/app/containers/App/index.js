@@ -8,18 +8,25 @@
  */
 
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.css';
 
-import HomePage from 'containers/HomePage/Loadable';
+import OverviewPage from 'containers/OverviewPage/Loadable';
+import SettingsPage from 'containers/SettingsPage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
+import Navigation from 'containers/Navigation';
 
 import GlobalStyle from '../../global-styles';
 
 export default function App() {
   return (
     <div>
+      <Navigation />
       <Switch>
-        <Route exact path="/" component={HomePage} />
+        <Route exact path="/" render={() => <Redirect to="/overview" />} />
+        <Route exact path="/overview" component={OverviewPage} />
+        <Route exact path="/settings" component={SettingsPage} />
+
         <Route component={NotFoundPage} />
       </Switch>
       <GlobalStyle />
