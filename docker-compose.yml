@@ -12,13 +12,13 @@ services:
     restart: on-failure
     networks:
       - rss-service
-  
+
   frontend:
     container_name: frontend
     build: 
       context: ./frontend
     ports:
-      - "80:80"
+      - "3000:3000"
     networks:
       - rss-service
     depends_on:

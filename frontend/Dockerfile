@@ -1,18 +1,19 @@
-FROM node:current as build
+FROM node:current
 
-WORKDIR /usr/src/app
+# create app directory in container
+RUN mkdir -p /app/controlpanel
+WORKDIR /app/controlpanel
 
-COPY package.json ./
-RUN npm i
+# only copy package.json and the lock.json initially so that `npm install` layer is recreated only
+# if there are changes in package.json
+COPY package*.json ./
+RUN npm install
 
-COPY . ./
+# copy files used by webpack
+ADD internals /app/controlpanel/internals
 
-RUN npm run build
+# Make sure you have an updated .dockerignore file
+# copy all file from current dir to /app in container
+COPY . /app/controlpanel
 
-FROM nginx
-COPY --from=build /usr/src/app/build /usr/share/nginx/html
-
-COPY nginx.conf /etc/nginx/nginx.conf
-
-#COPY .htpasswd /etc/apache2/.htpasswd
-CMD ["nginx", "-g", "daemon off;"]
+CMD [ "npm", "start" ]
