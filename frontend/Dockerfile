@@ -11,6 +11,7 @@ RUN npm install
 
 # copy files used by webpack
 ADD internals /app/controlpanel/internals
+ADD server /app/controlpanel/server
 
 # Make sure you have an updated .dockerignore file
 # copy all file from current dir to /app in container
