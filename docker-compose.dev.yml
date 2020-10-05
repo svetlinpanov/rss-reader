@@ -15,7 +15,8 @@ services:
 
   frontend:
     container_name: frontend
-    working_dir: ./frontend
+    image: node:current
+    working_dir: /app
     volumes:
       - ./frontend:/app
     ports:

@@ -15,6 +15,12 @@ docker, docker-compose
 To run the project with docker \
 command: docker-compose up -d --build
 
+# To run the project in dev mode
+Prerequisites:
+docker, docker-compose
+To run the project with docker \
+command: docker-compose -f docker-compose.dev.yml up -d
+
 
 # To run the project manually
 Prerequisites: install node, npm, go \
