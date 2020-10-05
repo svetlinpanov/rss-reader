@@ -1,0 +1,25 @@
+version: "3"
+
+networks:
+  rss-service:
+    driver: bridge
+services:
+  api:
+    container_name: go-api
+    build: .
+    ports: 
+      - 8080:8080 
+    restart: on-failure
+    networks:
+      - rss-service
+
+  frontend:
+    container_name: frontend
+    build: 
+      context: ./frontend
+    ports:
+      - "3000:3000"
+    networks:
+      - rss-service
+    depends_on:
+      - api

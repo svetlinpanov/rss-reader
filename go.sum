@@ -1,2 +1,4 @@
 github.com/gorilla/mux v1.8.0 h1:i40aqfkR1h2SlN9hojwV5ZA91wcXFOvkdNIeFDP5koI=
 github.com/gorilla/mux v1.8.0/go.mod h1:DVbg23sWSpFRCP0SfiEN6jmj59UnW/n46BH5rLB71So=
+github.com/svetlinpanov/rss-reader/reader v0.0.0-20201002195900-2a12aa634312 h1:LfbRFbfNL/ZcjZ5ytWh8LQgl+fnV2LwEyMvtW6hFx9s=
+github.com/svetlinpanov/rss-reader/reader v0.0.0-20201002195900-2a12aa634312/go.mod h1:LHE6DF4rh0cvXDUL2XCKfoNEH6eZJWyTgH15iMeEO0Q=
