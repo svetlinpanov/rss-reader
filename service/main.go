@@ -9,46 +9,59 @@ import (
 	"github.com/svetlinpanov/rss-reader/reader"
 )
 
-var urls []string
+type app struct {
+	Router *mux.Router
+	urls   []string
+}
 
-func get(w http.ResponseWriter, r *http.Request) {
-	items, err := reader.Parse(urls)
+func (a *app) get(w http.ResponseWriter, r *http.Request) {
+	items, err := reader.Parse(a.urls)
 	if err != nil {
 		respondWithError(w, http.StatusInternalServerError, err.Error())
 	}
 	respondWithJSON(w, http.StatusOK, items)
 }
 
-func getUrls(w http.ResponseWriter, r *http.Request) {
-	if urls == nil {
+func (a *app) getUrls(w http.ResponseWriter, r *http.Request) {
+	if a.urls != nil {
+		respondWithJSON(w, http.StatusOK, a.urls)
+	} else {
 		respondWithJSON(w, http.StatusOK, "")
 	}
-	respondWithJSON(w, http.StatusOK, urls)
 }
 
-func post(w http.ResponseWriter, r *http.Request) {
+func (a *app) post(w http.ResponseWriter, r *http.Request) {
 	decoder := json.NewDecoder(r.Body)
-	if err := decoder.Decode(&urls); err != nil {
+	if err := decoder.Decode(&a.urls); err != nil {
 		respondWithError(w, http.StatusBadRequest, "Invalid request payload")
 		return
 	}
 	defer r.Body.Close()
-	respondWithJSON(w, http.StatusOK, urls)
+	respondWithJSON(w, http.StatusOK, a.urls)
 }
 
 func notFound(w http.ResponseWriter, r *http.Request) {
 	respondWithError(w, http.StatusNotFound, "not found")
 }
 
-func main() {
-	r := mux.NewRouter()
-
-	api := r.PathPrefix("/api/v1").Subrouter()
-	api.HandleFunc("/rss", get).Methods(http.MethodGet)
-	api.HandleFunc("/rssUrls", getUrls).Methods(http.MethodGet)
-	api.HandleFunc("/rss", post).Methods(http.MethodPost)
+// InitializeApi starts the rest API
+func (a *app) InitializeAPI() {
+	a.Router = mux.NewRouter()
+	api := a.Router.PathPrefix("/api/v1").Subrouter()
+	api.HandleFunc("/rss", a.get).Methods(http.MethodGet)
+	api.HandleFunc("/rssUrls", a.getUrls).Methods(http.MethodGet)
+	api.HandleFunc("/rss", a.post).Methods(http.MethodPost)
 	api.HandleFunc("/", notFound)
-	log.Fatal(http.ListenAndServe(":8080", r))
+}
+
+func (a *app) Run(addr string) {
+	log.Fatal(http.ListenAndServe(addr, a.Router))
+}
+
+func main() {
+	a := app{}
+	a.InitializeAPI()
+	a.Run(":8080")
 }
 
 func respondWithError(w http.ResponseWriter, code int, message string) {
@@ -59,5 +72,9 @@ func respondWithJSON(w http.ResponseWriter, code int, payload interface{}) {
 	response, _ := json.Marshal(payload)
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(code)
-	w.Write(response)
+	if response != nil {
+		w.Write(response)
+	} else {
+		w.Write([]byte(""))
+	}
 }

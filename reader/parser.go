@@ -13,16 +13,13 @@ import (
 func parseRss(resp *http.Response) ([]RssItem, error) {
 	defer resp.Body.Close()
 
-	var rss struct {
-		Channel models.Channel `xml:"channel"`
-	}
 	body, _ := ioutil.ReadAll(resp.Body)
-	data := &rss
-	err := xml.Unmarshal(body, data) // Parse the XML into the structure
+	data := models.Rss{}
+	err := xml.Unmarshal(body, &data) // Parse the XML into the structure
 	if err != nil {
 		return nil, err
 	}
-	return convertToRssItems(&rss.Channel)
+	return convertToRssItems(&data.Channel)
 }
 
 func convertToRssItems(channel *models.Channel) ([]RssItem, error) {
@@ -48,8 +45,9 @@ func convertToRssItems(channel *models.Channel) ([]RssItem, error) {
 	return items, nil
 }
 
-// RssItems from all feeds
+// RssItem type for all feeds
 type RssItem struct {
+	// Title of the article
 	Title       string    `json:"title"`
 	Source      string    `json:"source"`
 	SourceURL   string    `json:"sourceUrl"`
