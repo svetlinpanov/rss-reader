@@ -1,20 +1,22 @@
 package reader
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 )
 
+// Parse function which accepts array of urls and returns array of RssItem
 func Parse(urls []string) ([]RssItem, error) {
 
 	c := make(chan urlResponse)
 	for _, url := range urls {
-		go fetchUrl(url, c)
+		go fetchURL(url, c)
 
 	}
 	result := make([]urlResponse, len(urls))
 	items := []RssItem{}
-	for i, _ := range result {
+	for i := range result {
 		result[i] = <-c
 		if result[i].status {
 			rssItems, err := parseRss(result[i].response)
@@ -26,12 +28,13 @@ func Parse(urls []string) ([]RssItem, error) {
 			items = append(items, rssItems...)
 		} else {
 			fmt.Println(result[i].url, "is down !!")
+			return nil, errors.New("error in getting feeds")
 		}
 	}
 	return items, nil
 }
 
-func fetchUrl(url string, c chan urlResponse) {
+func fetchURL(url string, c chan urlResponse) {
 	client := &http.Client{}
 	req, err := http.NewRequest("GET", url, nil)
 	req.Header.Set("User-Agent", "Gofeed/1.0")
