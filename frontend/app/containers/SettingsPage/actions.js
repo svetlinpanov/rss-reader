@@ -5,12 +5,14 @@
  */
 
 import {
-  POST_RSSURLS_REQUEST,
-  POST_RSSURLS_SUCCESS,
-  POST_RSSURLS_ERROR,
   GET_RSSURLS_REQUEST,
   GET_RSSURLS_SUCCESS,
   GET_RSSURLS_ERROR,
+  POST_RSSURLS_REQUEST,
+  POST_RSSURLS_SUCCESS,
+  POST_RSSURLS_ERROR,
+  UPDATE_RSSURLS,
+  ADD_RSSURLS
 } from './constants';
 
 export const postRssUrls = rssUrls => ({
@@ -36,4 +38,11 @@ export const getRssUrlsSuccess = rssUrls => ({
 export const getRssUrlsError = error => ({
   type: GET_RSSURLS_ERROR,
   error,
+});
+export const updateRssUrl = (value, index) => ({
+  type: UPDATE_RSSURLS,
+  payload: { value, index },
+});
+export const addRssUrl = () => ({
+  type: ADD_RSSURLS,
 });

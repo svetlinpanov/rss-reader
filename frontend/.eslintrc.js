@@ -13,18 +13,19 @@ module.exports = {
     jest: true,
     browser: true,
     node: true,
-    es6: true,
   },
   parserOptions: {
-    ecmaVersion: 6,
+    ecmaVersion: 7,
     sourceType: 'module',
     ecmaFeatures: {
       jsx: true,
     },
   },
   rules: {
+    'react/jsx-props-no-spreading': 'off',
     'prettier/prettier': ['error', prettierOptions],
     'arrow-body-style': [2, 'as-needed'],
+    'no-plusplus': 0,
     'class-methods-use-this': 0,
     'import/imports-first': 0,
     'import/newline-after-import': 0,
@@ -78,6 +79,8 @@ module.exports = {
     'redux-saga/no-yield-in-race': 2,
     'redux-saga/yield-effects': 2,
     'require-yield': 0,
+    'react/no-array-index-key': 0,
+    'react/jsx-curly-newline': 0,
   },
   settings: {
     'import/resolver': {

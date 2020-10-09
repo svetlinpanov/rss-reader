@@ -8,7 +8,6 @@ import { GET_RSSITEMS_SUCCESS, GET_RSSITEMS_ERROR } from './constants';
 
 export const initialState = {
   rssItems: [],
-  rssUrls: [],
 };
 
 /* eslint-disable default-case, no-param-reassign */

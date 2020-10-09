@@ -27,8 +27,8 @@ const RssListSearchable = ({
   return (
     <Fragment>
       <Container fluid>
-        {items.map(item => (
-          <Row key={item.title}>
+        {items.map((item, index) => (
+          <Row key={index}>
             <Col>
               <Card color="info">
                 <CardBody onClick={() => window.open(item.link, '_blank')}>
