@@ -13,3 +13,6 @@ export const POST_RSSURLS_ERROR = `${prefix}POST_RSSURLS_ERROR`;
 export const GET_RSSURLS_REQUEST = `${prefix}GET_RSSURLS_REQUEST`;
 export const GET_RSSURLS_SUCCESS = `${prefix}GET_RSSURLS_SUCCESS`;
 export const GET_RSSURLS_ERROR = `${prefix}GET_RSSURLS_ERROR`;
+
+export const ADD_RSSURLS = `${prefix}ADD_RSSURLS`;
+export const UPDATE_RSSURLS = `${prefix}UPDATE_RSSURLS`;

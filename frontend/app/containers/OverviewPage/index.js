@@ -21,7 +21,7 @@ import * as actions from './actions';
 export function OverviewPage({ rssItems = [], getRssItems }) {
   useEffect(() => {
     getRssItems();
-  }, [getRssItems]);
+  }, []);
 
   return <RssListSearchable items={rssItems} />;
 }

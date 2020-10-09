@@ -20,56 +20,47 @@ import * as actions from './actions';
 import reducer from './reducer';
 import saga from './saga';
 
-export function SettingsPage({ rssUrls = [], postRssUrls, getRssUrls }) {
+export function SettingsPage({ rssUrls = [], postRssUrls, getRssUrls, updateRssUrl, addRssUrl }) {
   useInjectReducer({ key: 'settingsPage', reducer });
   useInjectSaga({ key: 'settingsPage', saga });
   const [inputList, setInputList] = useState([]);
-  const [currentUrls, setCurrentUrls] = useState([]);
 
   useEffect(() => {
     getRssUrls();
-    initialLoad();
-  }, [getRssUrls]);
+  }, []);
 
-  const initialLoad = () => {
-    const list = rssUrls.map((url, index) => (
+  useEffect(() => {
+    setInputListInitial();
+  }, [rssUrls]);
+
+  const setInputListInitial = () => {
+    const inputList = rssUrls.map((url, index) => (
       <RssUrlInput
         value={url}
         onInputChange={e => handleInputChange(e, index)}
       />
     ));
-    setCurrentUrls(rssUrls);
-    setInputList(list);
-  };
-  // setInputList(inputListMap);
+    setInputList([...inputList]);
+  }
 
   const handleInputChange = (value, index) => {
-    const list = [...rssUrls];
-    list[index] = value;
-    setCurrentUrls(list);
-    // console.log(list);
+    updateRssUrl(value,index);
   };
 
   const handleAddInput = () => {
-    const list = [
-      ...inputList,
-      <RssUrlInput
-        value=""
-        onInputChange={e => handleInputChange(e, inputList.length)}
-      />,
-    ];
-    setInputList(list);
-    setCurrentUrls([...currentUrls, '']);
+    addRssUrl();
   };
+
+  
   const handleSave = () => {
-    const list = currentUrls.filter(x => x !== '');
-    postRssUrls(list);
+    console.log(rssUrls);
+    postRssUrls(rssUrls.filter(x => x !== ''));
   };
   return (
     <div>
       <Container fluid>
-        {inputList.map(item => (
-          <InputGroup key={item.title}>{item}</InputGroup>
+        {inputList.map((item, index) => (
+          <InputGroup key={index}>{item}</InputGroup>
         ))}
         <Row className="mt-1">
           <Col md={{ size: '1', offset: 10 }}>
@@ -90,8 +81,11 @@ export function SettingsPage({ rssUrls = [], postRssUrls, getRssUrls }) {
 
 SettingsPage.propTypes = {
   rssUrls: PropTypes.array,
+  currentUrls: PropTypes.array,
   postRssUrls: PropTypes.func,
   getRssUrls: PropTypes.func,
+  updateRssUrl: PropTypes.func,
+  addRssUrl: PropTypes.func,
   // dispatch: PropTypes.func.isRequired,
 };
 
@@ -102,6 +96,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   postRssUrls: currentUrls => dispatch(actions.postRssUrls(currentUrls)),
   getRssUrls: () => dispatch(actions.getRssUrls()),
+  updateRssUrl: (value,index) => dispatch(actions.updateRssUrl(value,index)),
+  addRssUrl: () => dispatch(actions.addRssUrl())
 });
 
 const withConnect = connect(
