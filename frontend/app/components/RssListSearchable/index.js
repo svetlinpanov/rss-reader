@@ -4,30 +4,42 @@
  *
  */
 
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 // import styled from 'styled-components';
-import { Container, Row, Col, Card, CardBody } from 'reactstrap';
-// CardTitle, CardSubtitle, CardText, Button
-const defaultSearchStringify = item => item.title;
+import { Container, Row, Col, Card, CardBody, InputGroupAddon, InputGroupText, Input,  InputGroup } from 'reactstrap';
+const defaultSearchStringify = item => item.title + item.publishDate.toISOString() + item.source;
 
 const RssListSearchable = ({
   items = [],
-  // searchStringify = defaultSearchStringify,
+  searchStringify = defaultSearchStringify,
 }) => {
-  // const [searchTerm, setSearchTerm] = useState('');
-  // const [searchResults, setSearchResults] = useState([]);
-  // useEffect(() => {
-  //   const filteredItems = items.filter(item =>
-  //     searchStringify(item).toLowerCase().includes(searchTerm.toLowerCase()),
-  //   );
-  //   setSearchResults(filteredItems);
-  // }, [searchTerm, items, searchStringify]);
-  // setSearchResults(items);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  useEffect(() => {
+    const filteredItems = items.filter(item =>
+      searchStringify(item).toLowerCase().includes(searchTerm.toLowerCase()),
+    );
+    setSearchResults(filteredItems);
+  }, [searchTerm, items, searchStringify]);
   return (
     <Fragment>
       <Container fluid>
-        {items.map((item, index) => (
+        <Row>
+          <Col>
+            <InputGroup>
+              <InputGroupAddon addonType="prepend">
+                <InputGroupText>search</InputGroupText>
+              </InputGroupAddon>
+              <Input
+                placeholder="..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />    
+            </InputGroup>    
+          </Col>
+        </Row>
+        {searchResults.map((item, index) => (
           <Row key={index}>
             <Col>
               <Card color="info">
@@ -50,7 +62,7 @@ RssListSearchable.propTypes = {
       source: PropTypes.string,
       sourceUrl: PropTypes.string,
       link: PropTypes.string,
-      PublishDate: PropTypes.string,
+      publishDate: PropTypes.date,
       description: PropTypes.string,
     }).isRequired,
   ),
